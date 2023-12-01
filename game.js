@@ -101,3 +101,9 @@ const readObj = localStorage.getItem("OBJ");
 const readOBJ = JSON.parse(localStorage.getItem("OBJ"));//STRING'I ORJINALINE CEVIRIR.
 console.log(readObj, typeof readObj);
 console.log(readOBJ, typeof readOBJ);
+
+document.querySelector(".guessInput").addEventListener("keydown",(e)=>{
+  if(e.code ==='Enter'){
+    document.querySelector(".checkBtn").click();
+  }
+})

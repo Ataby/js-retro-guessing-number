@@ -28,34 +28,40 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="text-center mt-2 p-4">
-      <h1>GUESS MY NUMBER</h1>
-      <div class="mt-4">
-        <p>Secret Number:</p>
-        <p class="secret-number">?</p>
+
+    <header>
+      <div class="d-flex flex-column align-items-center mt-5">
+        <h3 class=""> GUESS MY NUMBER</h3>
+        <p class="mt-2">Secret Number</p>
+        <p class=" "> <span class="secret border border-light p-2">?</span></p>
       </div>
     </header>
-    <hr />
-    <main class="container text-center p-3">
-      <p>Select a number between 1-100</p>
-      <section class="row justify-content-center align-items-center g-3 m-3">
-        <input type="number" class="col-md-4 p-2 guess-input text-center" />
-        <button class="btn btn-outline-light col-md-4 p-2 check-btn">Check</button>
-      </section>
+    <hr>
 
-      <section class="mt-4">
-        <p class="msg">Starting..</p>
+    <main>
+      <div class="d-flex flex-column align-items-center ">
+
+        <p class=" m-1 text-center">Select a number between 0-100</p> 
+
+        <input type="number" name="" id="number" class=" guessInput mb-2 rounded p-2 text-center"/>
+
+        <button class="checkBtn p-3 rounded "> Check <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i>
+        </button>
+      </div>
+
+      <div class="d-flex flex-column align-items-center ">
+        <p class="msg mt-2">starting...</p>
         <p class="score-label">
-         <i class="fa-solid fa-hashtag fa-2x"></i>  Score:
-          <span class="score"> 10</span>
-          <p class="top-score-label mb-4">
-            <i class="fa-solid fa-award fa-2x"></i> Top Score:
-            <span class="top-score">0</span>
-          </p>
-        </p>
+          Score: <span class="score"> 10</span>
+         <p class="topScore-label mb-1">
+           Top Score:
+           <span class="topScore">0</span>
+         </p>
+       </p>
+        <button class="again p-3 rounded">Again</button>
+      </div>
 
-        <button class="btn btn-outline-light again-btn p-2 mt-4 w-50">Again</button>
-      </section>
+
     </main>
     <script src="game.js"></script>
   </body>

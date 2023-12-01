@@ -3,103 +3,101 @@
 //*  Game Logic
 //*======================================
 
-//? 1-100 arasinda rasgele bir sayi tut.
-let randomNumber = Math.round(Math.random() * 100);
+// 1-100 arasinda rasgele bir sayi tut.
+var randomNumber = Math.round(Math.random() * 100);
 console.log(randomNumber);
 
-//? Variables
-let score = 10;
-// let topScore = 0;
-
-//? localStorage'de topScore adiyla bir degisken olustur.
+// var topScore =0;
+var score =10;
+//TOPSCORE'UN LOCAL.STORAGE'DA OKUNMASI LAZIM
 let topScore = localStorage.getItem("topScore") || 0;
+console.log(topScore);
+//TOPSCORE'UN DEGERI YOKSA || SIFIR YAZ.
+//TOPSCORE'UN DEGERI VARSA && SIFIR YAZ.
 
-//? DOM'daki top-score degerini localStorage'den okuyarak guncelle.
-document.querySelector(".top-score").textContent = topScore;
+//DOM'DAKI TOPSCORE DEGERINI LOCAL'DEN OKUYARAK GUNCELLE.
+document.querySelector(".topScore").textContent =topScore;
 
-//* CheckBtn basildiginda kontrolleri yap
-document.querySelector(".check-btn").addEventListener("click", () => {
-  const guessInput = Number(document.querySelector(".guess-input").value);
+
+//CHECK BUTTON OZELLİGİ
+document.querySelector(".checkBtn").addEventListener("click", ()=> {
   const msg = document.querySelector(".msg");
   const body = document.querySelector("body");
+  const secret = document.querySelector(".secret");
+  const guessInput = Number(document.querySelector(".guessInput").value);
+  //INPUT'UN DEGERINI, NUMBER CINSINDEN ALDIK
+  // console.log(guessInput);
 
-  //? eger input girilmediyse Kullaniciya uyari ver.
-  if (!guessInput) {
-    msg.innerText = "Please enter a number";
-    //! eger rasgele == input.value
-  } else if (randomNumber === guessInput) {
-    msg.innerHTML = `Congrats You Win <i class="fa-solid fa-face-grin-hearts fa-2x"></i> `;
-    body.className = "bg-success";
-    document.querySelector(".check-btn").disabled = true;
-    if (score > topScore) {
-      // topScore = score;
-
-      //? localStorage'deki topScore degiskenini guncelle
-      localStorage.setItem("topScore", score);
-      //? DOM'daki top-score degerini guncelle
-      document.querySelector(".top-score").textContent = score;
-    }
-    document.querySelector(".secret-number").textContent = randomNumber;
-
-    //! eger rasgele!= input.value
-  } else {
-    score--;
-    if (score > 0) {
-      guessInput > randomNumber
-        ? (msg.innerHTML = `<i class="fa-solid fa-arrow-trend-down fa-2x"></i> DECREASE `)
-        : (msg.innerHTML = `<i class="fa-solid fa-arrow-trend-up fa-2x"></i> INCREASE `);
-    } else {
-      msg.innerHTML = `You Lost <i class="fa-regular fa-face-sad-tear fa-2x"></i>`;
-      document.querySelector(".secret-number").textContent = randomNumber;
-      body.className = "bg-danger";
-      document.querySelector(".check-btn").disabled = true;
-    }
-
-    document.querySelector(".score").textContent = score;
+  if(!guessInput){//INPUT GIRILMEDIYSE UYARI VER
+    msg.innerText = "Lutfen sayi giriniz ";
   }
-});
+  else if (randomNumber===guessInput){
+   msg.innerHTML = `Right guess.Congrats!`;
 
-//* again basildiginda oyunu baslangic dgerlerin kur
-document.querySelector(".again-btn").addEventListener("click", () => {
-  score = 10;
+    body.className="bg-success";
+    secret.innerText = guessInput;
+    document.querySelector(".checkBtn").disabled =true ;
+    if(score > topScore){ 
+      // topScore = score;
+      //LOCAL'DEKI TOPSCORE DEGERINI GUNCELLE
+      localStorage.getItem("topScore",score); 
+      //DOM'DAKI TOPSCORE DEGERINI GUNCELLE
+      document.querySelector(".topScore").textContent = score;
+    } 
+  }
+  else if (guessInput!=randomNumber){
+    if(score >1){
+      score-=1;
+      guessInput > randomNumber 
+      ? (msg.innerHTML=`DECREASE <i class="fa-solid fa-arrow-trend-down fa-xl"></i>`) 
+      : (msg.innerHTML=`INCREASE <i class="fa-solid fa-arrow-trend-up fa-xl"></i>`);
+      document.querySelector(".score").textContent = score;
+      
+    }
+    else {
+      msg.innerText = "Sorry you lost";
+      body.className="bg-danger";
+      secret.innerText = randomNumber;
+      // secret.className="fa-fade display-6";
+      score=0;
+      document.querySelector(".score").textContent = score;
+      document.querySelector(".checkBtn").disabled =true ;
+    }
+  }
+})
+
+//AGAIN TUŞUNA BASILDIGINDA
+document.querySelector(".again").addEventListener("click", ()=>{
+  const msg = document.querySelector(".msg");
+  const body = document.querySelector("body");
+  // document.querySelector(".secret").classList.remove("fa-fade display-6");
+  document.querySelector(".secret").textContent='?';
+  // const guessInput = Number(document.querySelector(".guessInput").value);
+  
+  score =10;
   document.querySelector(".score").textContent = score;
   randomNumber = Math.round(Math.random() * 100);
-  document.querySelector(".secret-number").textContent = "?";
   console.log(randomNumber);
-  document.querySelector(".check-btn").disabled = false;
-  document.querySelector("body").classList.remove("bg-success", "bg-danger");
-  document.querySelector(".guess-input").value = "";
-  document.querySelector(".msg").innerText = `Starting..`;
-});
+  document.querySelector(".checkBtn").disabled =false ;
+  body.classList.remove("bg-success","bg-danger");
+  document.querySelector(".guessInput").value='';
+  msg.innerText='starting...';
 
-document.querySelector(".guess-input").addEventListener("keydown", (e) => {
-  if (e.code === "Enter") {
-    document.querySelector(".check-btn").click();
-  }
-});
+})
 
-//! LOCALSTORAGE- SESSIONSTORAGE
-// myObj = { a: 1, b: 2, c: 3 };
-// localStorage.setItem("OBJ", JSON.stringify(myObj));
-// const readObj = localStorage.getItem("OBJ");
-// const readOBJ = JSON.parse(localStorage.getItem("OBJ"));
-// console.log(typeof readObj);
-// console.log(typeof readOBJ);
-// console.log(readOBJ);
+//SESSION.STORAGE(OTURUM DEPOLAMA) => KULLANICI OTURUMU KAPATTIGINDA VEYA SURE DOLDUGUNDA OTOMATIK SILINIR.
 
-//* PUSEDUO
-//? eger score > topScore
-//?     topScore = score
-//? secret_number = gorunur.
+//LOCAL.STORAGE(YEREL DEPOLAMA) => KULLANICI SILENE KADAR KALICI BELLEKTE DURUR.
+//LOCAL VE SESSION STORAGE, STRING TIPINDE SAKLAMA YAPAR. O YUZDEN ITEMLERI STRING TIPINDE SAKLAMAK GEREKIR.
 
-//! değilse
-//! eger score > 0
-//!   score = score -1
-//?   eğer rasgele < input.value
-//?     AZALT
-//?   degilse
-//?     ARTTIR
-//! degise
-//? Uzgunuz kaybetiniz.
+/* SET.ITEM => YAZMA,
+   GET.ITEM => OKUMA,
+   REMOVE.ITEM => ITEM SILME,
+   CLEAR => TOPLU TEMIZLEME */
 
-//* againBtn basildiginda kontrolleri yap
+myObj ={a:1,b:2,c:3};
+localStorage.setItem("OBJ", JSON.stringify(myObj)); //STRING HALE GETIRIR.
+const readObj = localStorage.getItem("OBJ");
+const readOBJ = JSON.parse(localStorage.getItem("OBJ"));//STRING'I ORJINALINE CEVIRIR.
+console.log(readObj, typeof readObj);
+console.log(readOBJ, typeof readOBJ);
